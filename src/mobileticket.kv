@@ -1,0 +1,45 @@
+<FrameWidget>:
+    BoxLayout:
+        orientation: 'vertical'
+        size_hint: 0.9, 1
+        canvas:
+            Color:
+                rgba: 1, 1, 1, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+    BoxLayout:
+        orientation: 'vertical'
+        size_hint: 0.1, 1
+        canvas:
+            Color: 
+                rgba: 0.56, 0.56, 0.56, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        Button:
+            text: "O"
+            size_hint: 1, None
+            height: 60
+            pos_hint: {"y": 0.5}
+            canvas:
+                Color:
+                    rgba: 1, 0, 0, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+        Button:
+            text: "I"
+            size_hint: 1, None
+            height: 60
+            pos_hint: {"center_y": 0.5}
+        Button:
+            text: "T"
+            size_hint: 1, None
+            height: 60
+            pos_hint: {"center_y": 0.5}
+        Button:
+            text: "A"
+            size_hint: 1, None
+            height: 60
+            pos_hint: {"center_y": 0.5}
