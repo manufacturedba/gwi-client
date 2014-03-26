@@ -9,10 +9,25 @@ from errors import CredentialsError
 
 class Authentication(object):
     def __init__(self, username, password):
-        auth_req = requests.post(SERVER, 
-                      data={"username":username, 
-                            "password":password}, 
-                      verify=True)
-        if auth_req != 200:
-            raise CredentialsError("Invalid Credentials")
+        self.username = username
+        self.password = password
         
+    def signin(self):
+        auth_req = requests.post(SERVER, 
+                      data={"username":self.username, 
+                            "password":self.password}, 
+                      verify=True)
+        if auth_req.status_code != 200:
+            raise CredentialsError("Invalid Credentials")
+            return None
+        return auth_req.session_token
+        
+    def signout(self, session_token):
+        auth_req = requests.post(SERVER, 
+                      data={"username":self.username, 
+                            "password":session_token}, 
+                      verify=True)
+        if auth_req.status_code != 200:
+            raise CredentialsError("Invalid Credentials")
+            return False
+        return True
