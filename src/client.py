@@ -5,20 +5,32 @@ import pymongo
 
 from auth import Authentication
 
-from settings import DATABASE, SERVER
-
-from log import Log as log
+from log import Log
 
 import requests
 
-mongo_client = pymongo.MongoClient(DATABASE.HOST, DATABASE.PORT)
-db = mongo_client.gwi
+try:
+    from settings import DATABASE_SETTINGS
+    nes_keys = ['ENGINE', 'host', 'port']
+    for key in nes_keys:
+        if DATABASE_SETTINGS[key] == None:
+            raise Exception('MissingKeyError')
+    DATABASE = __import__(DATABASE_SETTINGS['ENGINE'])
+catch (ImportError, KeyError, MissingKeyError) as e:
+    print e
+    break
+    
+MODE_MAPPING = getattr(settings, 'LOG_MODE_MAPPING', None)
+BACKEND = getattr(settings, 'LOG_BACKEND', None)
+SERVER = getattr(settings, 'SERVER', None)
 
 class Client(object):
     def __init__(self):
-        self.db = db
-        self.logger = log(db.log)
+        self.db = DATABASE
+        self.logger = Log(BACKEND, MODE_MAPPING)
     
+    def db_connect(self):
+        
     def check_username(self, username):
         check = requests.get(SERVER + '/user/' + username + '/check')
         if check.text == "user exists":
